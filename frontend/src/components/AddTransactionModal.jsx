@@ -1,38 +1,36 @@
-import { Button, Input, Modal, ModalContent, ModalHeader, ModalBody, ModalFooter } from "@heroui/react";
 import { useState } from "react";
 
-export default function AddTransactionModal() {
-  const [open, setOpen] = useState(false);
+export default function AddTransactionForm({ onAdd }) {
+  const [description, setDescription] = useState("");
+  const [amount, setAmount] = useState("");
+
+  function handleSubmit(e) {
+    e.preventDefault();
+    if (!description || !amount) return;
+
+    onAdd({
+      description,
+      amount: Number(amount),
+    });
+
+    setDescription("");
+    setAmount("");
+  }
 
   return (
-    <>
-      <Button color="primary" size="sm" onPress={() => setOpen(true)}>
-        Add transaction
-      </Button>
-
-      <Modal isOpen={open} onOpenChange={setOpen} placement="center">
-        <ModalContent>
-          {(onClose) => (
-            <>
-              <ModalHeader>Add transaction</ModalHeader>
-              <ModalBody>
-                <Input label="Description" placeholder="Groceries" />
-                <Input label="Amount" type="number" placeholder="0.00" />
-                <Input label="Category" placeholder="Food" />
-              </ModalBody>
-              <ModalFooter>
-                <Button variant="light" onPress={onClose}>
-                  Cancel
-                </Button>
-                <Button color="primary" onPress={onClose}>
-                  Save
-                </Button>
-              </ModalFooter>
-            </>
-          )}
-        </ModalContent>
-      </Modal>
-    </>
+    <form onSubmit={handleSubmit} className="add-form">
+      <input
+        placeholder="Description"
+        value={description}
+        onChange={(e) => setDescription(e.target.value)}
+      />
+      <input
+        placeholder="Amount"
+        type="number"
+        value={amount}
+        onChange={(e) => setAmount(e.target.value)}
+      />
+      <button type="submit">Add</button>
+    </form>
   );
 }
-

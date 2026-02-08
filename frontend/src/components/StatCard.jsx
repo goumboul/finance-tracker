@@ -1,22 +1,14 @@
-export default function StatCard({ label, value, trend, helper }) {
-  const trendClass =
-    trend == null ? "" : trend >= 0 ? "stat-trend positive" : "stat-trend negative";
-
+export default function StatCard({ label, value, trend }) {
   return (
     <div className="stat-card">
-      <div className="stat-top">
-        <span className="stat-label">{label}</span>
-        {trend != null && (
-          <span className={trendClass}>
-            {trend >= 0 ? "+" : ""}
-            {trend}%
-          </span>
-        )}
-      </div>
-
+      <span className="stat-label">{label}</span>
       <div className="stat-value">{value}</div>
-
-      {helper && <div className="stat-helper">{helper}</div>}
+      {trend !== undefined && (
+        <span className={trend >= 0 ? "positive" : "negative"}>
+          {trend >= 0 ? "+" : ""}
+          {trend}%
+        </span>
+      )}
     </div>
   );
 }
